@@ -1,0 +1,31 @@
+What is done well?
+1.Path aliases have been used in imports.
+2.TSLint has been used for static code analysis.
+3.Lazy Loading of Modules has been used.
+4.storeDevToolModule has been used to visualize and perform actions on the Redux state tree of the application.
+5. Focus on code reusability has been done as common components have been built as library.
+6. Proper folder strecture and file naming conventions followed.
+
+What would you change?
+I would -
+1. disable 'Go' button untill the form is valid. - Fixed
+2. display error messages, in case of backend failure.
+3. display spinner or loader to improve user experience.
+4. move constants to a separate file for better code structure. - Fixed in chart.component.ts and stocks.component.ts
+5. comment the code properly for better understanding. - Fixed 
+6. Write unit test case for all to improve code coverage.
+7.Do a better code commenting for other developers to know, what is being done.
+8.Specify member access modifiers in components.
+
+
+Are there any code smells or problematic implementations?
+1.Public and private access modifiers are not used in member methods/variables of components. (line 15 - stocks.component.ts) - Fixed
+2.Unused variables priod, symbol in stocks.component.ts - Fixed 
+3.Unused variables present - changedDetectionStrategy, ChangeDetectorRef - Fixed in chart.component.ts. 
+4.'any' type has been used in variable declaration. - Fixed in chart.component.ts (line 18)
+5.Incorrect variable ‘data’ used for *ngIf inside chart.component.html. It should be ‘chartData’. - Fixed
+6.operators safe navigation operator has not been used in chart.component.html. - Fixed
+7.Return type of methods have not been specified. - fixed in stocks.component.ts (fetchQuote method)
+8.Subscriptions have not been unsubscribed in chart.component.html - Fixed - unsubscription done using takeUntil 
+9.Use interfaces for type safety wherever possible - Fixed in chart.component.ts and stocks.component.ts
+10.Test case are failing.

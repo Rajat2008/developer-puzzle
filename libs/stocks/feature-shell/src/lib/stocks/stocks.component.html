@@ -12,13 +12,13 @@
           !stockPickerForm.get('symbol').valid &&
           stockPickerForm.get('symbol').touched
         "
-        >Please enter a symbol</span
+        >{{templateLabels?.symbolError}}}</span
       >
     </mat-error>
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label>Favorite time period</mat-label>
+    <mat-label>{{templateLabels?.timePeriodLabel}}</mat-label>
     <mat-select formControlName="period">
       <mat-option
         *ngFor="let timePeriod of timePeriods"
@@ -29,7 +29,7 @@
     </mat-select>
   </mat-form-field>
 
-  <button (click)="fetchQuote()" mat-raised-button>Go</button>
+  <button (click)="fetchQuote()" [disabled]="!stockPickerForm.valid" mat-raised-button>Go</button>
 </form>
 
 <coding-challenge-chart [data$]="quotes$"></coding-challenge-chart>
