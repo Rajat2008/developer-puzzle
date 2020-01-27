@@ -25,11 +25,18 @@ export class PriceQueryEffects {
         return this.httpClient
           .get(
             `${this.env.apiURL}/beta/stock/${action.symbol}/chart/${
-              action.period
+            "max"
             }?token=${this.env.apiKey}`
           )
           .pipe(
-            map(resp => new PriceQueryFetched(resp as PriceQueryResponse[]))
+            map(resp => {
+              const allData = resp as PriceQueryResponse[];
+              const filteredData = allData.filter(data => {
+                const respDate = new Date(data.date + ' 0:0:0');
+                return ((respDate.getTime() >= action.fromDate.getTime()) && (respDate.getTime() <= action.toDate.getTime()))
+              });
+              return new PriceQueryFetched(filteredData)
+            })
           );
       },
 
@@ -43,5 +50,5 @@ export class PriceQueryEffects {
     @Inject(StocksAppConfigToken) private env: StocksAppConfig,
     private httpClient: HttpClient,
     private dataPersistence: DataPersistence<PriceQueryPartialState>
-  ) {}
+  ) { }
 }
