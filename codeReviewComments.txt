@@ -3,7 +3,8 @@ What is done well?
 2.TSLint has been used for static code analysis.
 3.Lazy Loading of Modules has been used.
 4.storeDevToolModule has been used to visualize and perform actions on the Redux state tree of the application.
-
+5. Focus on code reusability has been done as common components have been built as library.
+6. Proper folder strecture and file naming conventions followed.
 
 What would you change?
 I would -
@@ -12,7 +13,9 @@ I would -
 3. display spinner or loader to improve user experience.
 4. move constants to a separate file for better code structure. - Fixed in chart.component.ts and stocks.component.ts
 5. comment the code properly for better understanding. - Fixed 
-6. move the hardcoded strings in template to Typescript code. - Fixed in stocks.component.ts
+6. Write unit test case for all to improve code coverage.
+7.Do a better code commenting for other developers to know, what is being done.
+8.Specify member access modifiers in components.
 
 
 Are there any code smells or problematic implementations?
