@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PriceQueryFacade } from '@coding-challenge/stocks/data-access-price-query';
+import { MatFormFieldControl } from '@angular/material';
 
 @Component({
   selector: 'coding-challenge-stocks',
@@ -9,10 +10,9 @@ import { PriceQueryFacade } from '@coding-challenge/stocks/data-access-price-que
 })
 export class StocksComponent implements OnInit {
   stockPickerForm: FormGroup;
-  symbol: string;
-  period: string;
+  maxDate: Date = new Date();
 
-  quotes$ = this.priceQuery.priceQueries$;
+  public quotes$ = this.priceQuery.priceQueries$;
 
   timePeriods = [
     { viewValue: 'All available data', value: 'max' },
@@ -28,16 +28,37 @@ export class StocksComponent implements OnInit {
   constructor(private fb: FormBuilder, private priceQuery: PriceQueryFacade) {
     this.stockPickerForm = fb.group({
       symbol: [null, Validators.required],
-      period: [null, Validators.required]
+      fromDate: [null, Validators.required],
+      toDate: [null, Validators.required]
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  fetchQuote() {
+  /*if from date is after to date, make it the same as to date*/
+  public fromDateChange(date): void {
+    const { toDate } = (this.stockPickerForm.get('toDate').valid) ? this.stockPickerForm.value : '';
+    if (toDate) {
+      if (date.value.getTime() > toDate.getTime()) {
+        this.stockPickerForm.controls.fromDate.setValue(toDate)
+      };
+    }
+  }
+
+  /*if to date is after from date, make it the same as from date*/
+  public toDateChange(date): void {
+    const { fromDate } = (this.stockPickerForm.get('fromDate').valid) ? this.stockPickerForm.value : '';
+    if (fromDate) {
+      if (date.value.getTime() < fromDate.getTime()) {
+        this.stockPickerForm.controls.toDate.setValue(fromDate)
+      }
+    }
+  }
+
+  public fetchQuote(): void {
     if (this.stockPickerForm.valid) {
-      const { symbol, period } = this.stockPickerForm.value;
-      this.priceQuery.fetchQuote(symbol, period);
+      const { symbol, fromDate, toDate } = this.stockPickerForm.value;
+      this.priceQuery.fetchQuote(symbol, fromDate, toDate);
     }
   }
 }
